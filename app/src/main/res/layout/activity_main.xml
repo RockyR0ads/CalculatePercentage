@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="0dp"
+
+    android:background="#404040">
+
+    <Button
+        android:id="@+id/five"
+        android:layout_width="67dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginLeft="30dp"
+        android:textSize="20sp"
+        android:text="5%" />
+
+    <Button
+        android:id="@+id/ten"
+        android:layout_width="67dp"
+        android:layout_height="47dp"
+        android:textSize="20sp"
+        android:layout_alignTop="@id/five"
+        android:layout_toRightOf="@+id/five"
+        android:text="10%"
+         />
+
+    <Button
+        android:id="@+id/fifteen"
+        android:layout_width="67dp"
+        android:layout_height="47dp"
+        android:textSize="20sp"
+        android:layout_alignTop="@+id/five"
+        android:layout_marginEnd="-297dp"
+        android:layout_toRightOf="@id/ten"
+        android:text="15%"
+        tools:layout_editor_absoluteX="179dp"
+        tools:layout_editor_absoluteY="56dp" />
+
+    <Button
+        android:id="@+id/twenty"
+        android:layout_width="67dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="297dp"
+        android:layout_marginLeft="25dp"
+        android:layout_alignTop="@+id/five"
+        android:layout_toRightOf="@id/fifteen"
+        android:textSize="20sp"
+        android:text="20%" />
+
+    <Button
+        android:id="@+id/twentyfive"
+        android:layout_width="67dp"
+        android:layout_height="47dp"
+        android:layout_alignTop="@id/five"
+        android:layout_toRightOf="@id/twenty"
+        android:textSize="20sp"
+        android:text="25%" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="319dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="50dp"
+        android:textAlignment="center"
+        android:textColorHint="#FFFFFF"
+        android:ems="10"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:hint="Enter your number"
+        android:inputType="phone" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:text="Submit"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="270dp" />
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="373dp"
+        android:layout_height="350dp"
+        android:layout_below="@id/submit"
+        android:gravity="center|top"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/buttonPressed"
+        android:textSize="40sp" />
+
+</RelativeLayout>
+
