@@ -88,13 +88,23 @@
 
     <TextView
         android:id="@+id/result"
-        android:layout_width="373dp"
-        android:layout_height="350dp"
+        android:layout_width="230dp"
+        android:layout_height="100dp"
         android:layout_below="@id/submit"
-        android:gravity="center|top"
+        android:layout_marginTop="70dp"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:textColor="@color/buttonPressed"
-        android:textSize="40sp" />
+        android:textSize="60sp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="160dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/submit"
+        android:layout_marginTop="100dp"
+        app:srcCompat="@drawable/barbell" />
 
 </RelativeLayout>
 

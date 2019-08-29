@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -16,10 +17,9 @@ public class MainActivity extends AppCompatActivity {
     double storedValue = 0;
     double percentage = 0;
     double finalNumber = 0;
-    double storedDecimal = 0;
     double lastDigit = 0;
     double rawFinal = 0;
-    int intPart;
+    int intPart = 0;
 
     Boolean resetValues = false;
 
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     Button twentyFive;
     EditText editText;
     TextView result;
+    ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +50,11 @@ public class MainActivity extends AppCompatActivity {
         fifteen = findViewById(R.id.fifteen);
         twenty = findViewById(R.id.twenty);
         twentyFive = findViewById(R.id.twentyfive);
+        image = findViewById(R.id.imageView);
 
         df.setMaximumFractionDigits(3);
+
+        image.setVisibility(View.INVISIBLE);
 
         five.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -107,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 storedValue = Float.parseFloat(editText.getText().toString().trim());
-
+                image.setVisibility(View.VISIBLE);
                 calculatedNumber = storedValue*(percentage/100.0f); // get the percentage
                 finalNumber = storedValue-calculatedNumber; // get the weight i should be lifting
                 rawFinal = finalNumber;
@@ -151,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                result.setText("weight:" + (df.format(finalNumber)) + "Kg" + "\n" + "removed weight: " + calculatedNumber + "\n" + "raw: " + rawFinal + " \n" + "last digit: " + lastDigit);
+                result.setText((df.format(finalNumber)) + "Kg" + "\n");
             }
         });
 
