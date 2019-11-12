@@ -19,21 +19,21 @@ public class MainActivity extends AppCompatActivity {
     double finalNumber = 0;
     double lastDigit = 0;
     double rawFinal = 0;
+    double poundCalc = 0;
     int intPart = 0;
+    double convertedWeight = 0;
 
     Boolean resetValues = false;
-
     DecimalFormat df = new DecimalFormat();
 
     Button submitButton;
-    Button five;
-    Button ten;
-    Button fifteen;
-    Button twenty;
-    Button twentyFive;
-    EditText editText;
+    Button submit1;
+    EditText poundWeight;
+    EditText weight;
     TextView result;
     ImageView image;
+    EditText Percentage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,56 +43,19 @@ public class MainActivity extends AppCompatActivity {
 
         // locate elements on screen we need to work with
         submitButton = findViewById(R.id.submit);
-        editText = findViewById(R.id.editText);
+        weight = findViewById(R.id.weight);
+        Percentage = findViewById(R.id.percentageText);
         result = findViewById(R.id.result);
-        five = findViewById(R.id.five);
-        ten = findViewById(R.id.ten);
-        fifteen = findViewById(R.id.fifteen);
-        twenty = findViewById(R.id.twenty);
-        twentyFive = findViewById(R.id.twentyfive);
         image = findViewById(R.id.imageView);
+        poundWeight = findViewById(R.id.weight1);
+        submit1 = findViewById(R.id.submit1);
 
         df.setMaximumFractionDigits(3);
 
         image.setVisibility(View.INVISIBLE);
 
-        five.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                five.setBackgroundResource(R.color.buttonPressed);
-                percentage = 5.0f;
-
-            }
-        });
-
-        ten.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                ten.setBackgroundResource(R.color.buttonPressed);
-                percentage = 10.0f;
-            }
-        });
-
-        fifteen.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                fifteen.setBackgroundResource(R.color.buttonPressed);
-                percentage = 15.0f;
-            }
-        });
-
-        twenty.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                twenty.setBackgroundResource(R.color.buttonPressed);
-                percentage = 20.0f;
-            }
-        });
-
-        twentyFive.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                twentyFive.setBackgroundResource(R.color.buttonPressed);
-                percentage = 25.0f;
-            }
-        });
         // reset application when attempting to calculate a new number
-        editText.setOnClickListener(new View.OnClickListener() {
+        weight.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if(resetValues){
                     Intent intent = getIntent();
@@ -105,18 +68,47 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        submit1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
 
+                String thePoundWeight = poundWeight.getText().toString();
+                poundCalc = Integer.valueOf(thePoundWeight);
+
+                convertedWeight = poundCalc * 2.20462;
+
+                lastDigit = (int)convertedWeight; // get the last digit as well as the decimals
+
+                // show the picture of the weight
+                image.setVisibility(View.VISIBLE);
+
+                result.setText((df.format(lastDigit)) + " Pounds" + "\n");
+                result.setTextSize(50);
+            }
+        });
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                storedValue = Float.parseFloat(editText.getText().toString().trim());
+                //store the percentage chosen
+
+                    String thePercentage = Percentage.getText().toString();
+                    percentage = Double.valueOf(thePercentage);
+
+
+                //store the weight
+                storedValue = Float.parseFloat(weight.getText().toString().trim());
+
+                // show the picture of the weight
                 image.setVisibility(View.VISIBLE);
-                calculatedNumber = storedValue*(percentage/100.0f); // get the percentage
-                finalNumber = storedValue-calculatedNumber; // get the weight i should be lifting
+
+                // get the percentage
+                calculatedNumber = storedValue*(percentage/100.0f);
+
+                // get the weight i should be lifting
+                finalNumber = storedValue-calculatedNumber;
                 rawFinal = finalNumber;
                 intPart = (int) finalNumber;
-                //storedDecimal = finalNumber - intPart; //get the decimal of the result
+
 
                 /**
                                             ----- 10KG ROUNDING LOGIC------
@@ -151,9 +143,6 @@ public class MainActivity extends AppCompatActivity {
                         finalNumber = finalNumber - lastDigit;
                         finalNumber = finalNumber + 10;
                 }
-
-
-
 
                 result.setText((df.format(finalNumber)) + "Kg" + "\n");
             }
