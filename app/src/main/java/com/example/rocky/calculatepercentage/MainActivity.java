@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -23,8 +24,10 @@ public class MainActivity extends AppCompatActivity {
     int intPart = 0;
     double convertedWeight = 0;
 
+    Boolean switchCheck = false;
     Boolean resetValues = false;
     DecimalFormat df = new DecimalFormat();
+    String checkSwitchString;
 
     Button submitButton;
     Button submit1;
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     TextView result;
     ImageView image;
     EditText Percentage;
-
+    Switch xmlSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +52,15 @@ public class MainActivity extends AppCompatActivity {
         image = findViewById(R.id.imageView);
         poundWeight = findViewById(R.id.weight1);
         submit1 = findViewById(R.id.submit1);
+        xmlSwitch = findViewById(R.id.switch1);
 
         df.setMaximumFractionDigits(3);
 
         image.setVisibility(View.INVISIBLE);
+
+        checkSwitchString = xmlSwitch.getTextOn().toString();
+
+
 
         // reset application when attempting to calculate a new number
         weight.setOnClickListener(new View.OnClickListener() {
@@ -71,18 +79,37 @@ public class MainActivity extends AppCompatActivity {
         submit1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                String thePoundWeight = poundWeight.getText().toString();
-                poundCalc = Integer.valueOf(thePoundWeight);
+                if(checkSwitchString == "KG") {
 
-                convertedWeight = poundCalc * 2.20462;
+                    String thePoundWeight = poundWeight.getText().toString();
+                    poundCalc = Integer.valueOf(thePoundWeight);
 
-                lastDigit = (int)convertedWeight; // get the last digit as well as the decimals
+                    convertedWeight = poundCalc * 2.20462;
 
-                // show the picture of the weight
-                image.setVisibility(View.VISIBLE);
+                    lastDigit = (int) convertedWeight; // get the last digit as well as the decimals
 
-                result.setText((df.format(lastDigit)) + " Pounds" + "\n");
-                result.setTextSize(50);
+                    // show the picture of the weight
+                    image.setVisibility(View.VISIBLE);
+
+                    result.setText((df.format(lastDigit)) + " Pounds" + "\n");
+                    result.setTextSize(50);
+
+                }
+                else{
+                    String thePoundWeight = poundWeight.getText().toString();
+                    poundCalc = Integer.valueOf(thePoundWeight);
+
+                    convertedWeight = poundCalc / 2.20462;
+
+                    lastDigit = (int) convertedWeight; // get the last digit as well as the decimals
+
+                    // show the picture of the weight
+                    image.setVisibility(View.VISIBLE);
+
+                    result.setText((df.format(lastDigit)) + " Kilos" + "\n");
+                    result.setTextSize(50);
+                }
+
             }
         });
 
