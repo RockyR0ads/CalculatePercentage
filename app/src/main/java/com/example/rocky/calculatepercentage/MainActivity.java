@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -20,19 +22,34 @@ public class MainActivity extends AppCompatActivity {
     double lastDigit = 0;
     double rawFinal = 0;
     double poundCalc = 0;
-    int intPart = 0;
     double convertedWeight = 0;
+    double ormWeight = 0;
+    double oneRepMax = 0;
 
+    int repetitions = 0;
+    int intPart = 0;
+
+
+    Boolean switchCheck = false;
     Boolean resetValues = false;
+
     DecimalFormat df = new DecimalFormat();
 
     Button submitButton;
     Button submit1;
+    Button submit2;
+
     EditText poundWeight;
     EditText weight;
-    TextView result;
-    ImageView image;
+    EditText weight2;
+    EditText reps;
     EditText Percentage;
+
+    TextView result;
+
+    ImageView image;
+
+    Switch xmlSwitch;
 
 
     @Override
@@ -42,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // locate elements on screen we need to work with
+
         submitButton = findViewById(R.id.submit);
         weight = findViewById(R.id.weight);
         Percentage = findViewById(R.id.percentageText);
@@ -49,10 +67,27 @@ public class MainActivity extends AppCompatActivity {
         image = findViewById(R.id.imageView);
         poundWeight = findViewById(R.id.weight1);
         submit1 = findViewById(R.id.submit1);
+        xmlSwitch = findViewById(R.id.switch1);
+        weight2 = findViewById(R.id.weight2);
+        reps = findViewById(R.id.Reps);
+        submit2 = findViewById(R.id.submit2);
 
         df.setMaximumFractionDigits(3);
 
         image.setVisibility(View.INVISIBLE);
+
+        xmlSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                        switchCheck = true;
+                        poundWeight.setHint("Pounds");
+                } else {
+                       switchCheck = false;
+                       poundWeight.setHint("Kgs");
+                }
+            }
+        });
+
 
         // reset application when attempting to calculate a new number
         weight.setOnClickListener(new View.OnClickListener() {
@@ -68,20 +103,67 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        poundWeight.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                   poundWeight.setHint(" ");
+                }
+            }
+        });
+
         submit1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                String thePoundWeight = poundWeight.getText().toString();
-                poundCalc = Integer.valueOf(thePoundWeight);
+                if(!switchCheck) {
 
-                convertedWeight = poundCalc * 2.20462;
+                    poundCalc = Integer.valueOf( poundWeight.getText().toString());
 
-                lastDigit = (int)convertedWeight; // get the last digit as well as the decimals
+                    convertedWeight = poundCalc * 2.20462;
+
+                    lastDigit = (int) convertedWeight; // get the last digit as well as the decimals
+
+                    // show the picture of the weight
+                    image.setVisibility(View.VISIBLE);
+
+                    result.setText((df.format(lastDigit)) + " Pounds" + "\n");
+                    result.setTextSize(50);
+
+                }
+                else{
+
+                    poundCalc = Integer.valueOf(poundWeight.getText().toString());
+
+                    convertedWeight = poundCalc / 2.20462;
+
+                    lastDigit = (int) convertedWeight; // get the last digit as well as the decimals
+
+                    // show the picture of the weight
+                    image.setVisibility(View.VISIBLE);
+
+                    result.setText((df.format(lastDigit)) + " Kg" + "\n");
+                    result.setTextSize(50);
+                }
+
+            }
+        });
+
+        submit2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                // store the weight
+                ormWeight = Double.valueOf(weight2.getText().toString());
+
+                //store the reps
+                repetitions = Integer.valueOf(reps.getText().toString());
+
+                //formula to get 1RM
+                 oneRepMax = ormWeight*(1+ repetitions/30f);
 
                 // show the picture of the weight
                 image.setVisibility(View.VISIBLE);
 
-                result.setText((df.format(lastDigit)) + " Pounds" + "\n");
+                result.setText((int) oneRepMax + " Kg" + "\n");
                 result.setTextSize(50);
             }
         });
@@ -90,9 +172,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 //store the percentage chosen
-
-                    String thePercentage = Percentage.getText().toString();
-                    percentage = Double.valueOf(thePercentage);
+                percentage = Double.valueOf(Percentage.getText().toString());
 
 
                 //store the weight
