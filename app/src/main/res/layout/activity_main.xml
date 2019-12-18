@@ -13,7 +13,7 @@
 
     <EditText
         android:id="@+id/weight"
-        android:layout_width="200dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/CP"
         android:textAlignment="center"
@@ -23,6 +23,19 @@
         android:textSize="20sp"
         android:hint="Weight"
         android:inputType="phone" />
+
+    <EditText
+        android:id="@+id/weight2"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/OneRepMax"
+        android:ems="10"
+        android:hint="Weight"
+        android:inputType="phone"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/weight1"
@@ -35,15 +48,15 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:layout_centerHorizontal="true"
-        android:hint="Weight"
+        android:hint="Weight in Kg"
         android:inputType="phone" />
 
     <EditText
         android:id="@+id/percentageText"
-        android:layout_width="200dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/CP"
-        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
         android:textAlignment="center"
         android:textColorHint="#FFFFFF"
         android:ems="10"
@@ -52,12 +65,27 @@
         android:hint="Percentage"
         android:inputType="phone" />
 
+    <EditText
+        android:id="@+id/Reps"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/OneRepMax"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Reps"
+        android:inputType="phone"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="20sp" />
+
     <Button
         android:id="@+id/submit"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/percentageText"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="25dp"
+
         android:text="Submit" />
 
     <Button
@@ -69,11 +97,20 @@
         android:layout_below="@id/converter"
         android:text="Submit" />
 
+    <Button
+        android:id="@+id/submit2"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/OneRepMax"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="Submit" />
+
     <TextView
         android:id="@+id/result"
         android:layout_width="230dp"
         android:layout_height="100dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="160dp"
         android:layout_below="@id/weight1"
         android:layout_centerHorizontal="true"
         android:gravity="center"
@@ -86,7 +123,7 @@
         android:layout_height="160dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/submit"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="250dp"
         app:srcCompat="@drawable/barbell" />
 
 
@@ -96,9 +133,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@id/submit"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="3dp"
-        android:textSize="15dp"
+        android:textSize="20dp"
         android:textColor="@color/buttonPressed"
         android:text="Calculate Percentage" />
 
@@ -106,13 +143,24 @@
         android:id="@+id/converter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/submit"
-        android:layout_marginTop="5dp"
-        android:textSize="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
         android:layout_centerInParent="true"
-        android:layout_alignLeft="@id/submit"
+        android:layout_below="@id/percentageText"
         android:textColor="@color/buttonPressed"
         android:text="Weight Converter" />
+
+    <TextView
+        android:id="@+id/OneRepMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/switch1"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:text="One Rep Max"
+        android:textColor="@color/buttonPressed"
+        android:textSize="20dp" />
 
     <Switch
         android:id="@+id/switch1"
@@ -128,7 +176,7 @@
         android:textOff="KG"
         android:switchMinWidth="50dp"
         android:showText="true"
-        android:textOn="PD"
+        android:textOn="Lb"
          />
 
 </RelativeLayout>
