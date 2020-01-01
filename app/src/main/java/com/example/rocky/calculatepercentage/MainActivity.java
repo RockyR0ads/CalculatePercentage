@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     double storedValue = 0;
     double percentage = 0;
     double finalNumber = 0;
-    double lastDigit = 0;
     double rawFinal = 0;
     double poundCalc = 0;
     double convertedWeight = 0;
@@ -28,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     int repetitions = 0;
     int intPart = 0;
-
+    int lastDigit = 0;
 
     Boolean switchCheck = false;
     Boolean resetValues = false;
@@ -46,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     EditText Percentage;
 
     TextView result;
+    TextView LBresult;
 
     ImageView image;
 
@@ -61,20 +61,23 @@ public class MainActivity extends AppCompatActivity {
         // locate elements on screen we need to work with
 
         submitButton = findViewById(R.id.submit);
-        weight = findViewById(R.id.weight);
+        weight = findViewById(R.id.cpWeight);
         Percentage = findViewById(R.id.percentageText);
-        result = findViewById(R.id.result);
+        result = findViewById(R.id.KGresult);
+        LBresult = findViewById(R.id.LBresult);
         image = findViewById(R.id.imageView);
-        poundWeight = findViewById(R.id.weight1);
+        poundWeight = findViewById(R.id.weightInKg);
         submit1 = findViewById(R.id.submit1);
         xmlSwitch = findViewById(R.id.switch1);
-        weight2 = findViewById(R.id.weight2);
+        weight2 = findViewById(R.id.ORMWeight);
         reps = findViewById(R.id.Reps);
         submit2 = findViewById(R.id.submit2);
 
         df.setMaximumFractionDigits(3);
 
         image.setVisibility(View.INVISIBLE);
+
+        calculateORM();
 
         xmlSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -126,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     // show the picture of the weight
                     image.setVisibility(View.VISIBLE);
 
-                    result.setText((df.format(lastDigit)) + " Pounds" + "\n");
+                    result.setText((df.format(lastDigit)) + " Lbs" + "\n");
                     result.setTextSize(50);
 
                 }
@@ -148,25 +151,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        submit2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
 
-                // store the weight
-                ormWeight = Double.valueOf(weight2.getText().toString());
-
-                //store the reps
-                repetitions = Integer.valueOf(reps.getText().toString());
-
-                //formula to get 1RM
-                 oneRepMax = ormWeight*(1+ repetitions/30f);
-
-                // show the picture of the weight
-                image.setVisibility(View.VISIBLE);
-
-                result.setText((int) oneRepMax + " Kg" + "\n");
-                result.setTextSize(50);
-            }
-        });
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -201,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                     Anything above 8.75 is automatically a +10kg addition to the next whole number
                 */
 
-                lastDigit = finalNumber % 10; // get the last digit as well as the decimals
+              double lastDigit = finalNumber % 10; // get the last digit as well as the decimals
 
                 // cases for weight between depending in what range it falls
                 if(lastDigit > 1.25 && lastDigit <= 3.75){
@@ -231,6 +216,48 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void calculateORM() {
+        submit2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
 
+                // store the weight
+                ormWeight = Double.valueOf(weight2.getText().toString());
+
+                //store the reps
+                repetitions = Integer.valueOf(reps.getText().toString());
+
+                //formula to get 1RM
+                if(repetitions>1) {
+                    oneRepMax = ormWeight * (1 + repetitions / 30f);
+                }
+                    else{
+                        // for retards who enter 1 rep
+                       oneRepMax = ormWeight;
+                        result.setText((int)oneRepMax + " Kg" + "\n");
+                        result.setTextSize(50);
+                }
+
+                    //pound conversion
+
+                     convertedWeight = (int)oneRepMax * 2.20462;
+                     lastDigit = (int) convertedWeight;
+                 
+
+
+                weight.setText(String.valueOf((int)oneRepMax)); // pre-set percentage calculator weight value to the ORM
+
+                // show the picture of the weight
+                image.setVisibility(View.VISIBLE);
+
+                if(oneRepMax!=ormWeight) {
+                    result.setText((int) oneRepMax + " Kgs" + "\n");
+                    result.setTextSize(50);
+                }
+                LBresult.setText((df.format(lastDigit)) + " Lbs" + "\n");
+                LBresult.setTextSize(50);
+
+            }
+        });
+    }
 
 }
