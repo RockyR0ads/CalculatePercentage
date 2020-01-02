@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                     // show the picture of the weight
                     image.setVisibility(View.VISIBLE);
 
-                    result.setText((df.format(lastDigit)) + " Kg" + "\n");
+                    result.setText((df.format(lastDigit)) + " Kgs" + "\n");
                     result.setTextSize(50);
                 }
 
@@ -230,18 +230,17 @@ public class MainActivity extends AppCompatActivity {
                 if(repetitions>1) {
                     oneRepMax = ormWeight * (1 + repetitions / 30f);
                 }
-                    else{
-                        // for retards who enter 1 rep
-                       oneRepMax = ormWeight;
-                        result.setText((int)oneRepMax + " Kg" + "\n");
-                        result.setTextSize(50);
+                else{
+                    // for retards who enter 1 rep
+                    oneRepMax = ormWeight;
+                    result.setText((int)oneRepMax + " Kg" + "\n");
+                    result.setTextSize(50);
                 }
 
-                    //pound conversion
+                //pound conversion
+                convertedWeight = (int)oneRepMax * 2.20462;
+                lastDigit = (int) convertedWeight;
 
-                     convertedWeight = (int)oneRepMax * 2.20462;
-                     lastDigit = (int) convertedWeight;
-                 
 
 
                 weight.setText(String.valueOf((int)oneRepMax)); // pre-set percentage calculator weight value to the ORM
