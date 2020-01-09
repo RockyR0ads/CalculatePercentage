@@ -1,5 +1,6 @@
 package com.example.rocky.calculatepercentage;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -96,13 +98,20 @@ public class MainActivity extends AppCompatActivity {
 
         handler = new Handler() ;
 
+        View view = this.getCurrentFocus();
+
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 StartTime = SystemClock.uptimeMillis();
                 handler.postDelayed(runnable, 0);
-
+                timer.setVisibility(View.VISIBLE);
                 reset.setEnabled(false);
 
             }
@@ -177,6 +186,11 @@ public class MainActivity extends AppCompatActivity {
         submit1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+
                 if(!switchCheck) {
 
                     poundCalc = Double.valueOf( poundWeight.getText().toString());
@@ -188,8 +202,8 @@ public class MainActivity extends AppCompatActivity {
                     // show the picture of the weight
                     image.setVisibility(View.VISIBLE);
 
-                    result.setText((df.format(lastDigit)) + " Lbs" + "\n");
-                    result.setTextSize(50);
+                    result.setText((df.format(lastDigit)) + "Lb" + "\n");
+                    result.setTextSize(60);
 
                 }
                 else{
@@ -203,8 +217,8 @@ public class MainActivity extends AppCompatActivity {
                     // show the picture of the weight
                     image.setVisibility(View.VISIBLE);
 
-                    result.setText((df.format(lastDigit)) + " Kgs" + "\n");
-                    result.setTextSize(50);
+                    result.setText((df.format(lastDigit)) + "Kg" + "\n");
+                    result.setTextSize(60);
                 }
 
             }
@@ -214,6 +228,11 @@ public class MainActivity extends AppCompatActivity {
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
 
                 //store the percentage chosen
                 percentage = Double.valueOf(Percentage.getText().toString());
@@ -273,8 +292,8 @@ public class MainActivity extends AppCompatActivity {
 
                 //pound conversion
                double poundWeight = finalNumber * 2.20462;
-                LBresult.setText((df.format((int)poundWeight)) + " Lbs" + "\n");
-                LBresult.setTextSize(50);
+                LBresult.setText((df.format((int)poundWeight)) + "Lb" + "\n");
+                LBresult.setTextSize(60);
             }
         });
 
@@ -284,6 +303,12 @@ public class MainActivity extends AppCompatActivity {
     public void calculateORM() {
         submit2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+
+
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
 
                 // store the weight
                 ormWeight = Double.valueOf(weight2.getText().toString());
@@ -298,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     // for retards who enter 1 rep
                     oneRepMax = ormWeight;
-                    result.setText((int)oneRepMax + " Kg" + "\n");
+                    result.setText((int)oneRepMax + "Kg" + "\n");
                     result.setTextSize(50);
                 }
 
@@ -314,11 +339,11 @@ public class MainActivity extends AppCompatActivity {
                 image.setVisibility(View.VISIBLE);
 
                 if(oneRepMax!=ormWeight) {
-                    result.setText((int) oneRepMax + " Kgs" + "\n");
-                    result.setTextSize(50);
+                    result.setText((int) oneRepMax + "Kg" + "\n");
+                    result.setTextSize(60);
                 }
-                LBresult.setText((df.format(lastDigit)) + " Lbs" + "\n");
-                LBresult.setTextSize(50);
+                LBresult.setText((df.format(lastDigit)) + "Lb" + "\n");
+                LBresult.setTextSize(60);
 
             }
         });
