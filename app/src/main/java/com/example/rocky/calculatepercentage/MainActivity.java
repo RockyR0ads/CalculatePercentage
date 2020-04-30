@@ -38,16 +38,18 @@ public class MainActivity extends AppCompatActivity {
     int lastDigit = 0;
 
     Boolean switchCheck = false;
+    boolean ccSwitchCheck = false;
 
     DecimalFormat df = new DecimalFormat();
 
-    EditText poundWeight, weight, weight2, reps, Percentage;
+    EditText poundWeight, weight, weight2, reps, Percentage, calorieInput;
     TextView result, LBresult, timer;
     ImageView image;
 
     Switch xmlSwitch;
+    Switch ccSwitch;
 
-    Button start, pause, reset, submitButton, submit1, submit2;
+    Button start, pause, reset, submitButton, submit1, submit2, submitCC;
     Handler handler;
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L ;
     int Seconds, Minutes, MilliSeconds ;
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         poundWeight = findViewById(R.id.weightInKg);
         submit1 = findViewById(R.id.submit1);
         xmlSwitch = findViewById(R.id.switch1);
+        ccSwitch = findViewById(R.id.switch2);
         weight2 = findViewById(R.id.ORMWeight);
         reps = findViewById(R.id.Reps);
         submit2 = findViewById(R.id.submit2);
@@ -80,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         start = findViewById(R.id.btStart);
         pause = findViewById(R.id.btPause);
         reset = findViewById(R.id.btReset);
+        submitCC = findViewById(R.id.submitCC);
+        calorieInput = findViewById(R.id.calorieInput);
 
         handler = new Handler() ;
 
@@ -89,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
         stopwatchHandler();
         weightConverter();
         percentageCalculator();
-
+        calorieConverter();
+        mediaPlayer();
 
     }
 
@@ -170,12 +176,10 @@ public class MainActivity extends AppCompatActivity {
             // play notification sound every 30 seconds
             if(Seconds == seconds) {
 
-                    mediaPlayer();
                     mediaPlayer.start();
-
             }
             // play notification sound every 1 minute
-                else if(Minutes == minutes && Seconds == 0){
+                else if((Minutes == minutes) && (Seconds == 0)){
 
                     mediaPlayer();
                     mediaPlayer.start();
@@ -185,6 +189,77 @@ public class MainActivity extends AppCompatActivity {
         }
 
     };
+
+    private void calorieConverter(){
+
+        double kjResult = 0; // calories to Kj
+        double calorieResult = 0;
+
+
+        // on tap remove the hint
+        calorieInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    calorieInput.setHint(" ");
+                }
+            }
+        });
+
+        //change the hint based of slider position
+        ccSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    ccSwitchCheck = true;
+                    calorieInput.setHint("Calories");
+                } else {
+                    ccSwitchCheck = false;
+                    calorieInput.setHint("Kilojoules");
+                }
+            }
+        });
+
+        // calculate either pounds or kgs based on slider position
+        submitCC.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+
+                if(!ccSwitchCheck) {
+
+                    double calorieResult = Double.valueOf(calorieInput.getText().toString())  / 4.184; // Kj to calories
+                    int finalCalorieResult = (int) calorieResult;
+
+                    lastDigit = (int) convertedWeight; // get the last digit as well as the decimals
+
+                    // show the picture of the weight
+                    image.setVisibility(View.VISIBLE);
+
+                    LBresult.setText((df.format(finalCalorieResult)) + "cal" + "\n");
+                    LBresult.setTextSize(80);
+
+                }
+                else{
+
+                    double kjRawValue = Double.valueOf(calorieInput.getText().toString()) * 4.184;
+                    int kjResult = (int)kjRawValue;
+
+                    lastDigit = (int) convertedWeight; // get the last digit as well as the decimals
+
+                    // show the picture of the weight
+                    image.setVisibility(View.VISIBLE);
+
+                    LBresult.setText((df.format(kjResult)) + "Kj" + "\n");
+                    LBresult.setTextSize(80);
+                }
+
+            }
+        });
+
+    }
 
     private void stopwatchHandler(){
 
@@ -384,15 +459,17 @@ public class MainActivity extends AppCompatActivity {
     private void mediaPlayer(){
 
             try {
+                mediaPlayer.reset();
                 mediaPlayer.setDataSource(this, defaultRingtoneUri);
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
+                //mediaPlayer.setAudioAttributes();
                 mediaPlayer.prepare();
+
                 mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
                     @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
-                        //mediaPlayer.stop();
-                        mediaPlayer.reset();
+                        //mediaPlayer.release();
+                      // mediaPlayer.reset();
 
                     }
                 });
